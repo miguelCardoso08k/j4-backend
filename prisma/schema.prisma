@@ -9,3 +9,255 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String @id @default(cuid())
+  firstName String
+  lastName  String
+  phone     String
+  email     String @unique
+  password  String
+}
+
+model Customer {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  barbershopName String
+  nickname       String?
+  cpf            String?
+  cnpj           String?
+  addressId      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  address Address   @relation(fields: [addressId], references: [id])
+  Order   Order[]
+  Payment Payment[]
+}
+
+model Supplier {
+  id        String   @id @default(cuid())
+  name      String
+  addressId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address  Address   @relation(fields: [addressId], references: [id])
+  products Product[]
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+  cep          String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  Customers Customer[]
+  Suppliers Supplier[]
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  categoryId    String?
+  supplierId    String
+  purchasePrice Float
+  salePrice     Float
+  brandId       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  Supplier          Supplier            @relation(fields: [supplierId], references: [id])
+  Category          Category?           @relation(fields: [categoryId], references: [id])
+  Orders            OrderItem[]
+  LoadItems         LoadItem[]
+  PurchaseOrderItem PurchaseOrderItem[]
+  Brand             Brand?              @relation(fields: [brandId], references: [id])
+  stock             Stock?
+  StockMovements    StockMovements[]
+}
+
+model Stock {
+  id        String   @id @default(cuid())
+  productId String   @unique
+  quantity  Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  Product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model StockMovements {
+  id        String       @id @default(cuid())
+  productId String
+  quantity  Int
+  type      MovementType
+  createdAt DateTime     @default(now())
+
+  Product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String
+
+  Products Product[]
+}
+
+model Brand {
+  id   String @id @default(cuid())
+  name String
+
+  Products Product[]
+}
+
+model Order {
+  id                 String      @id @default(cuid())
+  number             Int         @unique
+  customerId         String
+  totalAmount        Float
+  discountValue      Float?
+  discountPercentage Float?
+  status             OrderStatus
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  Customer    Customer      @relation(fields: [customerId], references: [id])
+  OrderItem   OrderItem[]
+  LoadOrder   LoadOrder[]
+  OrderRecord OrderRecord[]
+}
+
+model OrderItem {
+  id                String @id @default(cuid())
+  orderId           String
+  productId         String
+  quantity          Int
+  price             Float
+  discountValue     Float?
+  dicountPercentage Float?
+
+  Product Product @relation(fields: [productId], references: [id])
+  Order   Order   @relation(fields: [orderId], references: [id])
+}
+
+model Load {
+  id        String     @id @default(cuid())
+  status    LoadStatus
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  Items  LoadItem[]
+  Orders LoadOrder[]
+}
+
+model LoadOrder {
+  loadId  String
+  orderId String
+
+  Order Order @relation(fields: [orderId], references: [id])
+  Load  Load  @relation(fields: [loadId], references: [id])
+
+  @@id([loadId, orderId])
+}
+
+model LoadItem {
+  loadId    String
+  productId String
+  quantity  Int
+
+  products Product @relation(fields: [productId], references: [id])
+  load     Load    @relation(fields: [loadId], references: [id])
+
+  @@id([loadId, productId])
+}
+
+model PurchaseOrder {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  Items PurchaseOrderItem[]
+}
+
+model PurchaseOrderItem {
+  id              String @id @default(cuid())
+  purchaseOrderId String
+  productId       String
+  quantity        Int
+
+  Product       Product       @relation(fields: [productId], references: [id])
+  PurchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  customerId    String
+  paymentMethod PaymentMethod
+  createdAt     DateTime      @default(now())
+
+  Customer      Customer        @relation(fields: [customerId], references: [id])
+  PaymentRecord PaymentRecord[]
+}
+
+model Record {
+  id         String   @id @default(cuid())
+  customerId String
+  balance    Float
+  updatedAt  DateTime @updatedAt
+
+  Payments PaymentRecord[]
+  Orders   OrderRecord[]
+}
+
+model OrderRecord {
+  recordId String
+  orderId  String
+
+  Order  Order  @relation(fields: [orderId], references: [id])
+  Record Record @relation(fields: [recordId], references: [id])
+
+  @@id([orderId, recordId])
+}
+
+model PaymentRecord {
+  recordId  String
+  paymentId String
+
+  Payment Payment @relation(fields: [paymentId], references: [id])
+  Record  Record  @relation(fields: [recordId], references: [id])
+
+  @@id([recordId, paymentId])
+}
+
+enum LoadStatus {
+  PENDING
+  LOADING
+  COMPLETED
+  CANCELED
+}
+
+enum OrderStatus {
+  PENDING
+  AWAITING_STOCK
+  IN_ROUTE
+  COMPLETED
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  BANK_TRANSFER
+}
+
+enum MovementType {
+  IN
+  OUT
+}
