@@ -16,7 +16,7 @@ export interface Customer extends CreateCustomer {
 
 export interface CustomerRepositoryPrisma {
   create(data: CreateCustomer): Promise<null | Customer>;
-  gelAll(): Promise<null | Customer[]>;
+  getAll(): Promise<null | Customer[]>;
   getById(id: string): Promise<null | Customer>;
   getByName(name: string): Promise<null | Customer[]>;
   updateBarbershopName(data: {
@@ -24,7 +24,12 @@ export interface CustomerRepositoryPrisma {
     value: string;
   }): Promise<null | Customer>;
   updateNickname(data: { id: string; value: string }): Promise<null | Customer>;
+  updateFirstName(data: {
+    id: string;
+    value: string;
+  }): Promise<null | Customer>;
+  updateLastName(data: { id: string; value: string }): Promise<null | Customer>;
   updateCpf(data: { id: string; value: string }): Promise<null | Customer>;
   updateCnpj(data: { id: string; value: string }): Promise<null | Customer>;
-  delete(data: CreateCustomer): Promise<null | Customer>;
+  delete(id: string): Promise<null | Customer>;
 }

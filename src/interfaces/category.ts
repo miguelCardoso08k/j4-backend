@@ -12,4 +12,5 @@ export interface CategoryRepositoryPrisma {
   getById(id: string): Promise<null | Category>;
   getByName(name: string): Promise<null | Category[]>;
   updateName(data: { id: string; value: string }): Promise<null | Category>;
+  delete(id: string): Promise<null | Category>;
 }

@@ -1,7 +1,7 @@
 export interface CreateAddress {
   street: string;
   number: string;
-  complement?: string;
+  complement: string | null;
   neighborhood: string;
   city: string;
   state: string;
@@ -18,7 +18,7 @@ export interface AddressRepositoryPrisma {
   create(data: CreateAddress): Promise<null | Address>;
   getAll(): Promise<null | Address[]>;
   getById(id: string): Promise<null | Address>;
-  getByName(name: string): Promise<null | Address[]>;
+  getByValue(Value: string): Promise<null | Address[]>;
   updateStreet(data: { id: string; value: string }): Promise<null | Address>;
   updateNumber(data: { id: string; value: string }): Promise<null | Address>;
   updateComplement(data: {
