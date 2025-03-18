@@ -31,9 +31,10 @@ model Customer {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  address Address   @relation(fields: [addressId], references: [id])
+  Address Address   @relation(fields: [addressId], references: [id])
   Order   Order[]
   Payment Payment[]
+  Balance Record[]
 }
 
 model Supplier {
@@ -140,15 +141,17 @@ model OrderItem {
   productId         String
   quantity          Int
   price             Float
+  totalAmount       Float
   discountValue     Float?
   dicountPercentage Float?
 
   Product Product @relation(fields: [productId], references: [id])
-  Order   Order   @relation(fields: [orderId], references: [id])
+  Order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model Load {
   id        String     @id @default(cuid())
+  number    Int
   status    LoadStatus
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -161,8 +164,8 @@ model LoadOrder {
   loadId  String
   orderId String
 
-  Order Order @relation(fields: [orderId], references: [id])
-  Load  Load  @relation(fields: [loadId], references: [id])
+  Order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Load  Load  @relation(fields: [loadId], references: [id], onDelete: Cascade)
 
   @@id([loadId, orderId])
 }
@@ -180,6 +183,7 @@ model LoadItem {
 
 model PurchaseOrder {
   id        String   @id @default(cuid())
+  number    Int
   createdAt DateTime @default(now())
 
   Items PurchaseOrderItem[]
@@ -198,6 +202,7 @@ model PurchaseOrderItem {
 model Payment {
   id            String        @id @default(cuid())
   customerId    String
+  value         Float
   paymentMethod PaymentMethod
   createdAt     DateTime      @default(now())
 
@@ -209,10 +214,12 @@ model Record {
   id         String   @id @default(cuid())
   customerId String
   balance    Float
+  createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   Payments PaymentRecord[]
   Orders   OrderRecord[]
+  Customer Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
 }
 
 model OrderRecord {

@@ -24,7 +24,7 @@ export interface OrderRepositoryPrisma {
   create(data: CreateOrder): Promise<null | Order>;
   getAll(): Promise<null | Order[]>;
   getByCustomer(id: string): Promise<null | Order[]>;
-  getById(id: string): Promise<null | Order[]>;
+  getById(id: string): Promise<null | Order>;
   updateStatus(data: { id: string; value: OrderStatus }): Promise<null | Order>;
   updateDiscountValue(data: {
     id: string;
