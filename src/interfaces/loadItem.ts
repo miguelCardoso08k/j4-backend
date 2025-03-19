@@ -9,11 +9,14 @@ export interface LoadItem extends CreateLoadItem {}
 export interface LoadItemRepositoryPrisma {
   create(data: CreateLoadItem): Promise<null | LoadItem>;
   getAll(loadId: string): Promise<null | LoadItem[]>;
-  getItem(data: {
+  getById(data: {
     productId: string;
     loadId: string;
-  }): Promise<null | LoadItem[]>;
-  getById(id: string): Promise<null | LoadItem>;
-  updateQuantity(data: { id: string; value: number }): Promise<null | LoadItem>;
-  delete(id: string): Promise<null | LoadItem>;
+  }): Promise<null | LoadItem>;
+  updateQuantity(data: {
+    productId: string;
+    loadId: string;
+    value: number;
+  }): Promise<null | LoadItem>;
+  delete(data: { productId: string; loadId: string }): Promise<null | LoadItem>;
 }

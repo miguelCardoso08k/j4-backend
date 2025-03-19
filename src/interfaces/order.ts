@@ -1,16 +1,11 @@
-enum OrderStatus {
-  PENDING = "PENDING",
-  AWAITING_STOCK = "AWAITING_STOCK",
-  IN_ROUTE = "IN_ROUTE",
-  COMPLETED = "COMPLETED",
-}
+type OrderStatus = "PENDING" | "AWAITING_STOCK" | "IN_ROUTE" | "COMPLETED";
 
 export interface CreateOrder {
   number: number;
   customerId: string;
   totalAmount: number;
-  discountValue: number;
-  discountPercentage: number;
+  discountValue?: number | null;
+  discountPercentage?: number | null;
   status: OrderStatus;
   createdAt?: Date;
 }

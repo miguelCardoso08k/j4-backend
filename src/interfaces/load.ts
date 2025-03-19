@@ -1,9 +1,4 @@
-enum LoadStatus {
-  PENDING = "PENDING",
-  LOADING = "LOADING",
-  COMPLETED = "COMPLETED",
-  CANCELED = "CANCELED",
-}
+type LoadStatus = "PENDING" | "LOADING" | "COMPLETED" | "CANCELED";
 
 export interface CreateLoad {
   number: number;
