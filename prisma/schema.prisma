@@ -68,14 +68,14 @@ model Product {
   id            String   @id @default(cuid())
   name          String
   categoryId    String?
-  supplierId    String
+  supplierId    String?
   purchasePrice Float
   salePrice     Float
   brandId       String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  Supplier          Supplier            @relation(fields: [supplierId], references: [id])
+  Supplier          Supplier?           @relation(fields: [supplierId], references: [id])
   Category          Category?           @relation(fields: [categoryId], references: [id])
   Orders            OrderItem[]
   LoadItems         LoadItem[]
@@ -136,14 +136,14 @@ model Order {
 }
 
 model OrderItem {
-  id                String @id @default(cuid())
-  orderId           String
-  productId         String
-  quantity          Int
-  price             Float
-  totalAmount       Float
-  discountValue     Float?
-  dicountPercentage Float?
+  id                 String @id @default(cuid())
+  orderId            String
+  productId          String
+  quantity           Int
+  price              Float
+  totalAmount        Float
+  discountValue      Float?
+  discountPercentage Float?
 
   Product Product @relation(fields: [productId], references: [id])
   Order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)

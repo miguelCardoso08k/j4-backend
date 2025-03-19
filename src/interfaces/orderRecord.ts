@@ -9,6 +9,12 @@ export interface OrderRecordRepositoryPrisma {
   create(data: CreateOrderRecord): Promise<null | OrderRecord>;
   getAll(): Promise<null | OrderRecord[]>;
   getByRecord(recordId: string): Promise<null | OrderRecord[]>;
-  getById(id: string): Promise<null | OrderRecord>;
-  delete(id: string): Promise<null | OrderRecord>;
+  getById(data: {
+    recordId: string;
+    orderId: string;
+  }): Promise<null | OrderRecord>;
+  delete(data: {
+    recordId: string;
+    orderId: string;
+  }): Promise<null | OrderRecord>;
 }

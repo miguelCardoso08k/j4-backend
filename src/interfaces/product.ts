@@ -1,10 +1,10 @@
 export interface CreateProduct {
   name: string;
-  categoryId?: string;
-  supplierId: string;
+  categoryId?: string | null;
+  supplierId?: string | null;
   purchasePrice: number;
   salePrice: number;
-  brandId?: string;
+  brandId?: string | null;
 }
 
 export interface Product extends CreateProduct {
@@ -26,6 +26,6 @@ export interface ProductRepositoryPrisma {
     value: number;
   }): Promise<null | Product>;
   updateSalePrice(data: { id: string; value: number }): Promise<null | Product>;
-  updateBrand(data: { id: string; value: number }): Promise<null | Product>;
+  updateBrand(data: { id: string; value: string }): Promise<null | Product>;
   delete(id: string): Promise<null | Product>;
 }

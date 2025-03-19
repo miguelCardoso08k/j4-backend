@@ -4,8 +4,8 @@ export interface CreateOrderItem {
   quantity: number;
   price: number;
   totalAmount: number;
-  discountValue?: number;
-  discountPercentage?: number;
+  discountValue?: number | null;
+  discountPercentage?: number | null;
 }
 
 export interface OrderItem extends CreateOrderItem {

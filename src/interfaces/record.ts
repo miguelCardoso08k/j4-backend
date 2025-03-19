@@ -1,7 +1,7 @@
 export interface CreateRecord {
   customerId: string;
   balance: number;
-  createdAt: Date;
+  createdAt?: Date;
 }
 
 export interface Record extends CreateRecord {

@@ -1,15 +1,15 @@
-enum PaymentMethod {
-  CASH = "CASH",
-  CREDIT_CARD = "CREDIT_CARD",
-  DEBIT_CARD = "DEBIT_CARD",
-  PIX = "PIX",
-  BANK_TRANSFER = "BANK_TRANSFER",
-}
+type PaymentMethod =
+  | "CASH"
+  | "CREDIT_CARD"
+  | "DEBIT_CARD"
+  | "PIX"
+  | "BANK_TRANSFER";
 
 export interface CreatePayment {
   customerId: string;
   paymentMethod: PaymentMethod;
   createdAt?: Date;
+  value: number;
 }
 
 export interface Payment extends CreatePayment {
@@ -20,7 +20,7 @@ export interface PaymentRepositoryPrisma {
   create(data: CreatePayment): Promise<null | Payment>;
   getAll(): Promise<null | Payment[]>;
   getById(id: string): Promise<null | Payment>;
-  getByCustomer(customerId: string): Promise<null | Payment>;
+  getByCustomer(customerId: string): Promise<null | Payment[]>;
   updateMethod(data: {
     id: string;
     value: PaymentMethod;

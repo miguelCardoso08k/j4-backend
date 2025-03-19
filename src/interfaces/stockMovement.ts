@@ -1,17 +1,14 @@
-enum MovementType {
-  IN = "IN",
-  OUT = "OUT",
-}
+type MovementType = "IN" | "OUT";
 
 export interface CreateStockMovement {
   productId: string;
   quantity: number;
   type: MovementType;
+  createdAt?: Date;
 }
 
 export interface StockMovement extends CreateStockMovement {
   id: string;
-  createdAt: Date;
 }
 
 export interface StockMovementRepositoryPrisma {
@@ -19,4 +16,5 @@ export interface StockMovementRepositoryPrisma {
   getAll(): Promise<null | StockMovement[]>;
   getByProduct(id: string): Promise<null | StockMovement[]>;
   getById(id: string): Promise<null | StockMovement>;
+  delete(id: string): Promise<null | StockMovement>;
 }

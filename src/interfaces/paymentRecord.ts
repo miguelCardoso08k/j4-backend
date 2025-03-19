@@ -9,6 +9,12 @@ export interface PaymentRecordRepositoryPrisma {
   create(data: CreatePaymentRecord): Promise<null | PaymentRecord>;
   getAll(): Promise<null | PaymentRecord[]>;
   getByRecord(recordId: string): Promise<null | PaymentRecord[]>;
-  getById(id: string): Promise<null | PaymentRecord>;
-  delete(id: string): Promise<null | PaymentRecord>;
+  getById(data: {
+    recordId: string;
+    paymentId: string;
+  }): Promise<null | PaymentRecord>;
+  delete(data: {
+    recordId: string;
+    paymentId: string;
+  }): Promise<null | PaymentRecord>;
 }
