@@ -1,9 +1,13 @@
-import { auth } from "../config/auth";
-import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  HookHandlerDoneFunction,
+} from "fastify";
 
 export let invalidTokens: string[] = [];
 
-export const AuthMiddleware = (
+export const AuthMiddleware = async (
   req: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply,
   done: HookHandlerDoneFunction
@@ -25,5 +29,11 @@ export const AuthMiddleware = (
   if (invalidTokens.includes(token))
     return reply.code(401).send({ error: "Invalid token" });
 
-  done();
+  try {
+    await req.jwtVerify();
+    console.log(req.user);
+    done();
+  } catch (error) {
+    reply.status(401).send({ message: "Token inválido" });
+  }
 };

@@ -41,7 +41,10 @@ export const UserSchemas: UserSchemaInterface = {
         users: z.array(z.object({})).describe("Not found users"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -70,7 +73,10 @@ export const UserSchemas: UserSchemaInterface = {
         users: z.array(z.object({})).describe("Not found users"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -97,7 +103,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -131,7 +140,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -162,7 +174,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -190,7 +205,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -218,7 +236,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -246,7 +267,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -274,7 +298,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 
@@ -302,7 +329,10 @@ export const UserSchemas: UserSchemaInterface = {
         user: z.object({}).describe("Not found user"),
       }),
 
-      500: z.object({ message: z.literal("unexpected error") }),
+      500: z.object({
+        message: z.literal("unexpected error"),
+        error: z.string(),
+      }),
     },
   },
 };

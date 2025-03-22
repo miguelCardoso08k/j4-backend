@@ -25,7 +25,12 @@ export const UserRepository: UserRepositoryPrisma = {
 
   async getByName(name) {
     return await prisma.user.findMany({
-      where: { OR: [{ firstName: name }, { lastName: name }] },
+      where: {
+        OR: [
+          { firstName: { contains: name } },
+          { lastName: { contains: name } },
+        ],
+      },
       orderBy: { firstName: "asc" },
     });
   },

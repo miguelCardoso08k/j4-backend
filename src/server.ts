@@ -9,6 +9,8 @@ import {
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { UserRoutes } from "./routes/user";
+import fastifyJwt from "@fastify/jwt";
+import { auth } from "./config/auth";
 
 const fastify = Fastify({
   // logger: true,
@@ -16,6 +18,8 @@ const fastify = Fastify({
 
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
+
+fastify.register(fastifyJwt, { secret: auth.secret });
 
 fastify.register(fastifyCors, { origin: "*" });
 fastify.register(fastifySwagger, {
